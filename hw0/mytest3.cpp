@@ -20,7 +20,7 @@
 #include <GLUT/glut.h>
 #else
 #include <GL/glew.h>
-#include <GL/glut.h>
+#include <GL/freeglut.h> //replaced GL/glut with GL/freeglut for linux runtime as recommended in FAQ
 #endif
 // Use of degrees is deprecated. Use radians for GLM functions
 #define GLM_FORCE_RADIANS
@@ -150,7 +150,7 @@ void display(void)
 		const GLfloat small[] = { 0.2f, 0.2f, 0.2f, 1 };
 		const GLfloat high[] = { 100 };
 		const GLfloat zero[] = { 0.0, 0.0, 0.0, 1.0 };
-		const GLfloat light_specular[] = { 1, 0.5, 0, 1 };
+		const GLfloat light_specular[] = { 1, 1, 0, 1 }; //changed from orange to yellow
 		const GLfloat light_specular1[] = { 0, 0.5, 1, 1 };
 		const GLfloat light_direction[] = { 0.5, 0, 0, 0 }; // Dir light 0 in w
 		const GLfloat light_position1[] = { 0, -0.5, 0, 1 };
@@ -466,6 +466,7 @@ int main(int argc, char** argv)
 #ifdef __APPLE__
 	glutInitDisplayMode (GLUT_3_2_CORE_PROFILE | GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 #else
+        glutInitContextVersion(3,1);  //added for linux runtime as recommended in FAQ
 	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 #endif
 
@@ -473,6 +474,7 @@ int main(int argc, char** argv)
 	glutCreateWindow ("Simple Demo with Shaders");
 
 #ifndef __APPLE__ // Do not use GLew on OSX systems!
+        glewExperimental = GL_TRUE;  //added for linux runtime as recommended in FAQ
 	GLenum err = glewInit() ; 
 	if (GLEW_OK != err) { 
 		std::cerr << "Error: " << glewGetString(err) << std::endl; 
