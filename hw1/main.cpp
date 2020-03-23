@@ -269,11 +269,13 @@ int main(int argc,char* argv[]) {
 #ifdef __APPLE__ // OSX systems require an extra flag
 	glutInitDisplayMode(GLUT_3_2_CORE_PROFILE | GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 #else
+    glutInitContextVersion(3,1);  //added for linux runtime as recommended in FAQ
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 #endif
 	glutCreateWindow("HW1: Transformations");
 
 #ifndef __APPLE__ // GLew not needed on OSX systems.
+        glewExperimental = GL_TRUE;  //added for linux runtime as recommended in FAQ
 	GLenum err = glewInit() ; 
 	if (GLEW_OK != err) { 
 		std::cerr << "Error: " << glewGetString(err) << std::endl; 
